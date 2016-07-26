@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Point3D?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.GaussianBlur?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ScenesAndControllers.OrderEditController">
+   <children>
+      <VBox alignment="TOP_CENTER" layoutY="2.0" prefHeight="600.0" prefWidth="184.0" spacing="10.0">
+         <children>
+            <ComboBox fx:id="cmbAddProuct" onAction="#productChooser" prefHeight="50.0" prefWidth="150.0" promptText="Dodaj Produkt" />
+            <Button mnemonicParsing="false" onAction="#ItemSearchScreen" prefHeight="50.0" prefWidth="150.0" text="Wyszukaj produkt" />
+            <Button mnemonicParsing="false" onAction="#newOrderScreen" prefHeight="50.0" prefWidth="150.0" text="Nowe zamówienie" textAlignment="CENTER" textOverrun="WORD_ELLIPSIS" />
+            <Button mnemonicParsing="false" onAction="#editOrderScreen" prefHeight="50.0" prefWidth="150.0" text="Wyszukaj zamowienie" />
+            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Edytuj Zamowienie" />
+         </children>
+         <opaqueInsets>
+            <Insets top="10.0" />
+         </opaqueInsets>
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
+         <effect>
+            <GaussianBlur radius="0.0">
+               <input>
+                  <DropShadow />
+               </input>
+            </GaussianBlur>
+         </effect>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </VBox>
+      <HBox alignment="CENTER_RIGHT" layoutX="422.0" layoutY="554.0" prefHeight="40.0" prefWidth="400.0" spacing="5.0">
+         <children>
+            <Button fx:id="btnExit" mnemonicParsing="false" onAction="#Exit" onDragDetected="#Exit" text="Wyjdz" />
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </HBox>
+      <HBox alignment="CENTER" layoutX="175.0" layoutY="23.0" prefHeight="36.0" prefWidth="633.0" spacing="10.0">
+         <children>
+            <Label prefHeight="17.0" prefWidth="111.0" text="numer zamowienia">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Label>
+            <TextField>
+               <opaqueInsets>
+                  <Insets right="10.0" />
+               </opaqueInsets>
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </TextField>
+         </children>
+      </HBox>
+      <TableView fx:id="table" layoutX="211.0" layoutY="87.0" prefHeight="425.0" prefWidth="408.0">
+        <columns>
+          <TableColumn fx:id="elementTableColumn" prefWidth="350.0" text="zamowówienie" />
+          <TableColumn fx:id="idTableColumn" prefWidth="75.0" text="id" />
+        </columns>
+      </TableView>
+   </children>
+   <opaqueInsets>
+      <Insets top="10.0" />
+   </opaqueInsets>
+   <rotationAxis>
+      <Point3D x="100.0" y="100.0" />
+   </rotationAxis>
+</AnchorPane>

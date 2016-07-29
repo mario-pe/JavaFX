@@ -13,7 +13,7 @@
       <Button layoutX="119.0" layoutY="222.0" mnemonicParsing="false" onAction="#Login" prefHeight="25.0" prefWidth="62.0" text="Login" />
       <TextField fx:id="txtUserName" layoutX="76.0" layoutY="69.0" promptText="User name" />
       <PasswordField fx:id="txtPass" layoutX="76.0" layoutY="125.0" prefHeight="25.0" prefWidth="149.0" promptText="Password" />
-      <Label fx:id="lblStatus" layoutX="61.0" layoutY="194.0" prefHeight="19.0" prefWidth="179.0" />
+      <Label fx:id="lblStatus" layoutX="61.0" layoutY="194.0" prefHeight="19.0" prefWidth="179.0" textFill="#750808" />
       <Hyperlink layoutX="75.0" layoutY="165.0" onAction="#ToRegistration" text="Rejestracja nowego uzytkownika">
          <font>
             <Font size="10.0" />

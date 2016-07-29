@@ -86,19 +86,22 @@
          </children>
       </HBox>
       <Label layoutX="584.0" layoutY="6.0" prefHeight="17.0" prefWidth="40.0" text="waga" />
-      <TableView fx:id="table" layoutX="188.0" layoutY="111.0" prefHeight="284.0" prefWidth="469.0">
+      <TableView fx:id="table" layoutX="188.0" layoutY="111.0" prefHeight="474.0" prefWidth="469.0">
         <columns>
-          <TableColumn fx:id="name" prefWidth="147.0" text="nazwa" />
-          <TableColumn fx:id="price" prefWidth="99.0" text="cena" />
-            <TableColumn fx:id="weight" prefWidth="141.0" text="waga" />
-            <TableColumn fx:id="store" text="magazyn" />
+          <TableColumn fx:id="name" prefWidth="152.0" text="nazwa" />
+            <TableColumn fx:id="author" prefWidth="127.0" text="autor" />
+          <TableColumn fx:id="price" prefWidth="69.0" text="cena" />
+            <TableColumn fx:id="weight" minWidth="0.0" prefWidth="58.0" text="waga" />
+            <TableColumn fx:id="store" prefWidth="62.0" text="magazyn" />
         </columns>
       </TableView>
       <CheckBox layoutX="575.0" layoutY="65.0" mnemonicParsing="false" text="ksiazka" />
       <CheckBox layoutX="668.0" layoutY="65.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="100.0" text="urzadzenie" />
-      <VBox alignment="TOP_CENTER" layoutX="718.0" layoutY="101.0" prefHeight="403.0" prefWidth="59.0" spacing="5.0">
+      <VBox alignment="TOP_CENTER" layoutX="718.0" layoutY="101.0" prefHeight="403.0" prefWidth="78.0" spacing="5.0">
          <children>
-            <Button fx:id="btnItemsSearch" mnemonicParsing="false" onAction="#search" text="szukaj" />
+            <Button fx:id="btnItemsSearch" mnemonicParsing="false" onAction="#search" prefHeight="25.0" prefWidth="56.0" text="szukaj" />
+            <Button mnemonicParsing="false" onAction="#search" prefHeight="25.0" prefWidth="56.0" text="usuń" />
+            <Button fx:id="btnSave" mnemonicParsing="false" prefHeight="25.0" prefWidth="56.0" text="zapisz" />
          </children>
          <opaqueInsets>
             <Insets />

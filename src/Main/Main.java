@@ -66,13 +66,13 @@ public class Main extends Application {
 //        OperationsOnFile.writeOrderListToFileArray(orderArrayList);
 //        ArrayList<Item> itemArrayList = OperationsOnFile.readItemListFromFile();
 //        for(Item item: itemArrayList) System.out.println(item);
-////        ArrayList<Order> orderListFromFile = OperationsOnFile.readOrderListFromFile();
-////        for(Order or: orderListFromFile) System.out.println(or);
+//        ArrayList<Order> orderListFromFile = OperationsOnFile.readOrderListFromFile();
+//        for(Order or: orderListFromFile) System.out.println(or);
 
-//        Parent root = FXMLLoader.load(getClass().getResource("../ScenesAndControllers/MenuScreen.fxml"));
-//        primaryStage.setTitle("Menu Główne");
-        Parent root = FXMLLoader.load(getClass().getResource("../ScenesAndControllers/LoginForm.fxml"));
-        primaryStage.setTitle("Logowanie");
+        Parent root = FXMLLoader.load(getClass().getResource("../ScenesAndControllers/MenuScreen.fxml"));
+        primaryStage.setTitle("Menu Główne");
+//        Parent root = FXMLLoader.load(getClass().getResource("../ScenesAndControllers/LoginForm.fxml"));
+//        primaryStage.setTitle("Logowanie");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }

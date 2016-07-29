@@ -1,7 +1,10 @@
 package ScenesAndControllers;
 
+
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import Model.User;
 import ProjectUtils.OperationsOnFile;
@@ -52,28 +55,51 @@ public class RegistrationScreenController {
 		int age = 1;
 
 		if (!txtName.getText().equals("")) {
+			lblName.setText("");
 			name = txtName.getText();
 			booleanName = true;
-		} else lblName.setText("musisz podac imie");
+		} else lblName.setText("pole obowiązkowe");
+
 		if (!txtSecondName.getText().equals("")) {
+			lblSecondName.setText("");
 			secondName = txtSecondName.getText();
 			booleanSecondName = true;
-		} else lblSecondName.setText("musisz podac nazwisko");
+		} else lblSecondName.setText("pole obowiązkowe");
+
+
+
+
 		if (!txtMail.getText().equals("")) {
 			mail = txtMail.getText();
 			booleanMail = true;
-		} else lblMail.setText("musisz podac mail");
+		} else lblMail.setText("pole obowiązkowe");
+
+		String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(mail);
+		booleanMail = matcher.matches();
+		if(booleanMail == false) lblMail.setText("zły format");
+		else {booleanMail = true; lblMail.setText("");}
+
+
 		if (!txtLogin.getText().equals("")) {
+			lblLogin.setText("");
 			login = txtLogin.getText();
 			booleanLogin = true;
-		} else lblLogin.setText("musisz podac login");
+		} else lblLogin.setText("pole obowiązkowe");
 
-		if(!txtPassword.getText().equals("")){password = txtPassword.getText(); booleanPassword = true;}
-		else lblPassword.setText("musisz podac hasło");
+		if(!txtPassword.getText().equals("")){password = txtPassword.getText(); booleanPassword = true;lblPassword.setText("");}
+		else lblPassword.setText("pole obowiązkowe");
 
 		try{
-		if(!txtAge.getText().equals("")){age = Integer.parseInt(txtAge.getText()); booleanAge = true;}
-			else lblAge.setText("musisz podac wiek");}
+		if(!txtAge.getText().equals("")){age = Integer.parseInt(txtAge.getText());
+			 booleanAge = true;}
+			else lblAge.setText("pole obowiązkowe");
+			if(age < 18) {lblAge.setText("jestes za młody"); booleanAge = false;}
+		          else{ booleanAge = true;
+			lblAge.setText("");}
+		}
+
 		catch(Exception e){
 			lblAge.setText("zła wartosc");}
 

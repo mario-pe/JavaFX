@@ -1,8 +1,5 @@
 package Model;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-
 import java.io.Serializable;
 
 /**
@@ -12,19 +9,19 @@ public abstract class Item implements Serializable {
     private String name;
     private float price;
     private float weight;
-    private int store;
+    private int quantity;
 
     public Item(){
         this.name = "name";
         this.price = 0;
         this.weight = 0;
-        this.store = 0;
+        this.quantity = 0;
     }
     public Item(String nazwa, float cena, float waga,int store){
         this.name = nazwa;
         this.price = cena;
         this.weight = waga;
-        this.store =  store;
+        this.quantity =  store;
     }
 
 
@@ -34,7 +31,7 @@ public abstract class Item implements Serializable {
         this.name = produkt.name;
         this.price = produkt.price;
         this.weight = produkt.weight;
-        this.store = produkt.store;
+        this.quantity = produkt.quantity;
     }
     public float getWeight() {
         return weight;
@@ -54,15 +51,15 @@ public abstract class Item implements Serializable {
     public void setPrice(float price) {
         this.price = price;
     }
-    public int getStore() {
-        return store;
+    public int getQuantity() {
+        return quantity;
     }
-    public void setStore(int store){
-        this.store= store;
+    public void setQuantity(int quantity){
+        this.quantity = quantity;
     }
 
     public String toString(){
         return "Nazwa " + getName() + " cena " + getPrice() +
-                " waga " + getWeight() + " magazyn " + getStore();
+                " waga " + getWeight() + " magazyn " + getQuantity();
     }
 }

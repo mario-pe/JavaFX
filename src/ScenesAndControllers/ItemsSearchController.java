@@ -3,12 +3,9 @@ package ScenesAndControllers;
 import Model.Book;
 import Model.Item;
 import ProjectUtils.OperationsOnFile;
-import javafx.beans.property.SimpleFloatProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,7 +26,6 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import static javafx.scene.control.cell.TextFieldTableCell.forTableColumn;
-import static javafx.scene.input.KeyCode.T;
 
 /**
  * Created by domowy on 2016-07-19.
@@ -40,7 +36,6 @@ public class ItemsSearchController implements Initializable{
     @FXML private TextField txtPriceMax;
     @FXML private TextField txtWeightMin;
     @FXML private TextField txtWeightMax;
-
     @FXML private Button btnSave;
     @FXML private Button btnItemsSearch;
     @FXML private Button btnExit;
@@ -50,14 +45,13 @@ public class ItemsSearchController implements Initializable{
     @FXML private TableColumn<Book, String> author;
     @FXML private TableColumn<Item, Float> price;
     @FXML private TableColumn<Item , Float> weight;
-    @FXML private TableColumn<Item , Integer> store;
+    @FXML private TableColumn<Item , Integer> quantity;
 
 
     @Override public void initialize(URL location, ResourceBundle resources) {
         table.setEditable(true);
         ObservableList<String> productTypes = FXCollections.observableArrayList("urzadzenie", "ksiazka");
         cmbAddProuct.setItems(productTypes);
-
 
         ObservableList<Item> obList = null;
         try {
@@ -110,14 +104,14 @@ public class ItemsSearchController implements Initializable{
                         ((Item) t.getTableView().getItems().get(t.getTablePosition().getRow())).setWeight(t.getNewValue());
                     }
                 });
-        store.setCellValueFactory(new PropertyValueFactory<Item,Integer>("store"));
-        store.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        quantity.setCellValueFactory(new PropertyValueFactory<Item,Integer>("quantity"));
+        quantity.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
 
-        store.setOnEditCommit(
+        quantity.setOnEditCommit(
                 new EventHandler<TableColumn.CellEditEvent<Item, Integer>>() {
                     @Override
                     public void handle(TableColumn.CellEditEvent<Item, Integer> t) {
-                        ((Item) t.getTableView().getItems().get(t.getTablePosition().getRow())).setStore(t.getNewValue());
+                        ((Item) t.getTableView().getItems().get(t.getTablePosition().getRow())).setQuantity(t.getNewValue());
                     }
                 });
 
@@ -135,7 +129,6 @@ public class ItemsSearchController implements Initializable{
         ObservableList<Item> itemObservableList = FXCollections.observableArrayList(i);
         return itemObservableList;
     }
-
     public void search(ActionEvent event) throws IOException {
         ObservableList<Item> itemObservableList = FXCollections.observableArrayList(tableListView());
         ObservableList<Item> listSearch = FXCollections.observableArrayList();
@@ -149,9 +142,12 @@ public class ItemsSearchController implements Initializable{
                                 listSearch.add(item);
                                 table.setItems(listSearch);
                             }
-
     }
     public void delete(ActionEvent event){
+        ObservableList<Item>  selectedProdukt, allProduckt;
+        allProduckt = table.getItems();
+        selectedProdukt = table.getSelectionModel().getSelectedItems();
+        selectedProdukt.forEach(allProduckt :: remove);
 
     }
 

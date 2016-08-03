@@ -45,14 +45,14 @@ public class Book extends Item {
         b.setPrice(price);
         b.setWeight(weight);
         b.setISBN(ISBN);
-        b.setStore(store);
+        b.setQuantity(store);
 
         return b;
     }
     public String toString() {
         return "Nazwa " + getName() + " autor " + getAuthor()
                  + ", cena " + getPrice()+ " waga " + getWeight() + ", kod " + getISBN()
-                + " magazyn " + getStore();
+                + " magazyn " + getQuantity();
     }
 
 

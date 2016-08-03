@@ -5,7 +5,6 @@ import Model.Item;
 import Order.Order;
 import ProjectUtils.GeneratorId;
 import ProjectUtils.OperationsOnFile;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -41,12 +40,14 @@ public class NewOrderController implements Initializable {
     @FXML private TableColumn<Item , String> name;
     @FXML private TableColumn<Item , Float> price;
     @FXML private TableColumn<Item , Float> weight;
-    @FXML private TableColumn<Item , Integer> store;
+    @FXML private TableColumn<Item , Integer> quantity;
     @FXML private TableView<Element> tableOrder;
-    @FXML private TableColumn<Element , Item> nameOrder;
+    @FXML private TableColumn<Element , String> nameOrder;
     @FXML private TableColumn<Element , Float> priceOrder;
     @FXML private TableColumn<Element , Float> weightOrder;
     @FXML private TableColumn<Element , Integer> amountOrder;
+    @FXML private TableColumn<Element , Float> costOrder;
+    @FXML private TableColumn<Element , Float> loadOrder;
 
 
     @FXML private Label lblOrderId;
@@ -61,11 +62,7 @@ public class NewOrderController implements Initializable {
     @Override public void initialize(URL location, ResourceBundle resources) {
         ObservableList<String> productTypes = FXCollections.observableArrayList("urzadzenie", "ksiazka");
         cmbAddProuct.setItems(productTypes);
-        txtAmount.setText("1");
-
-
-
-
+        txtAmount.setText("2");
 
         ArrayList<Item> i = null;
         try {
@@ -74,8 +71,6 @@ public class NewOrderController implements Initializable {
             e.printStackTrace();
         }
         ObservableList<Item> tableListView = FXCollections.observableArrayList(i);
-
-
 
 
         ArrayList<Order> orderArrayList = null;
@@ -114,7 +109,9 @@ public class NewOrderController implements Initializable {
                     Item rowData = roww.getItem();
                     Element element = new Element(rowData);
                     element.setAmount(Integer.parseInt(txtAmount.getText()));
-                    rowData.setStore(element.setStoreQuantity(rowData));
+                    element.setCost(Element.cost(rowData,Integer.parseInt(txtAmount.getText())));
+                    element.setLoad(Element.load(rowData,Integer.parseInt(txtAmount.getText())));
+                    rowData.setQuantity(element.setStoreQuantity(rowData));
                     elementArrayList.add(element);
 
 //                    OperationsOnFile.writeItemListToFileArray(tableListView());
@@ -126,10 +123,14 @@ public class NewOrderController implements Initializable {
                         System.out.println(e);
 
                     ObservableList<Element> listOrederOb = FXCollections.observableArrayList(elementArrayList);
-                    String nameElement = element.getItem().getName();
+                    String nameElement = element.getName();
 
-                    nameOrder.setCellValueFactory(new PropertyValueFactory<Element,Item>("item"));
+                    nameOrder.setCellValueFactory(new PropertyValueFactory<Element,String>("name"));
+                    priceOrder.setCellValueFactory(new PropertyValueFactory<Element,Float>("price"));
+                    weightOrder.setCellValueFactory(new PropertyValueFactory<Element,Float>("weight"));
                     amountOrder.setCellValueFactory(new PropertyValueFactory<Element,Integer>("amount"));
+                    costOrder.setCellValueFactory(new PropertyValueFactory<Element,Float>("cost"));
+                    loadOrder.setCellValueFactory(new PropertyValueFactory<Element,Float>("load"));
                     tableOrder.setItems(listOrederOb);
                 }
             });
@@ -172,9 +173,8 @@ public class NewOrderController implements Initializable {
         name.setCellValueFactory(new PropertyValueFactory<Item, String>("name"));
         price.setCellValueFactory(new PropertyValueFactory<Item,Float>("price"));
         weight.setCellValueFactory(new PropertyValueFactory<Item,Float>("weight"));
-        store.setCellValueFactory(new PropertyValueFactory<Item, Integer>("store"));
+        quantity.setCellValueFactory(new PropertyValueFactory<Item, Integer>("quantity"));
         table.setItems(tableListView);
-//        table.setItems(obList);
         table.setEditable(true);
 
     }

@@ -50,7 +50,7 @@ public class Main extends Application {
 //        ArrayList<User> usersList =  OperationsOnFile.readUsersListFromFile();
 //        for(User u : usersList)
 //            System.out.println(u);
-//
+
 //        Device d1 = new Device();
 //        Book b1 = new Book();
 //        Element e = new Element(d1,3);

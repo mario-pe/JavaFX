@@ -24,7 +24,7 @@ public class Device extends Item {
         d.setPrice(price);
         d.setWeight(weight);
         d.setWarranty(warranty);
-        d.setStore(store);
+        d.setQuantity(store);
         return d;
     }
     public int getWarranty(){
@@ -35,7 +35,7 @@ public class Device extends Item {
     }
 
     public String toString(){
-        return "nazwa " + getName() + " cena " + getPrice() + " waga " + getWeight() + " gwarancja "+ getWarranty() + " magazyn " + getStore();
+        return "nazwa " + getName() + " cena " + getPrice() + " waga " + getWeight() + " gwarancja "+ getWarranty() + " magazyn " + getQuantity();
     }
 
 }

@@ -46,6 +46,7 @@
       <Label fx:id="lblTop" layoutX="236.0" layoutY="6.0" prefHeight="17.0" prefWidth="149.0" text="nazwa" />
       <HBox alignment="CENTER_RIGHT" layoutX="422.0" layoutY="554.0" prefHeight="40.0" prefWidth="400.0" spacing="5.0">
          <children>
+            <Button mnemonicParsing="false" onAction="#delete" text="delete" />
             <Button mnemonicParsing="false" onAction="#writeToFile" text="zapisz" />
             
             <Button fx:id="btnExit" mnemonicParsing="false" onAction="#Exit" text="Wyjdz" />

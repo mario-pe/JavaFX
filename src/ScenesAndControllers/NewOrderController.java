@@ -113,15 +113,13 @@ public class NewOrderController implements Initializable {
                     element.setLoad(Element.load(rowData,Integer.parseInt(txtAmount.getText())));
                     rowData.setQuantity(element.setStoreQuantity(rowData));
                     elementArrayList.add(element);
-
 //                    OperationsOnFile.writeItemListToFileArray(tableListView());
 
-                    ArrayList<Item> ii = new ArrayList<Item>(tableListView);
-                     OperationsOnFile.writeItemListToFileArray(ii);
+//                    ArrayList<Item> ii = new ArrayList<Item>(tableListView);
+//                     OperationsOnFile.writeItemListToFileArray(ii);
 
-                    for(Element e : elementArrayList)
-                        System.out.println(e);
-
+//                    for(Element e : elementArrayList)
+//                        System.out.println(e);
                     ObservableList<Element> listOrederOb = FXCollections.observableArrayList(elementArrayList);
                     String nameElement = element.getName();
 
@@ -249,6 +247,18 @@ public class NewOrderController implements Initializable {
 //
 //            }
 //    }
+
+
+
+    public void delete(ActionEvent event){
+        ObservableList<Element>  selectedProdukt, allProduckt;
+        allProduckt = tableOrder.getItems();
+        selectedProdukt = tableOrder.getSelectionModel().getSelectedItems();
+        selectedProdukt.forEach(allProduckt :: remove);
+
+    }
+
+
     public void Exit(ActionEvent event) {
         btnExit.setOnAction(e -> {
             System.exit(0);

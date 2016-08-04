@@ -4,7 +4,6 @@
 <?import javafx.geometry.Point3D?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
@@ -16,7 +15,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ScenesAndControllers.NewOrderController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ScenesAndControllers.NewOrderController">
    <children>
       <VBox alignment="TOP_CENTER" layoutY="1.0" prefHeight="600.0" prefWidth="184.0" spacing="10.0">
          <children>
@@ -44,7 +43,7 @@
          </padding>
       </VBox>
       <Label fx:id="lblTop" layoutX="236.0" layoutY="6.0" prefHeight="17.0" prefWidth="149.0" text="nazwa" />
-      <HBox alignment="CENTER_RIGHT" layoutX="422.0" layoutY="554.0" prefHeight="40.0" prefWidth="400.0" spacing="5.0">
+      <HBox alignment="CENTER_RIGHT" layoutX="638.0" layoutY="554.0" prefHeight="45.0" prefWidth="184.0" spacing="5.0">
          <children>
             <Button mnemonicParsing="false" onAction="#delete" text="delete" />
             <Button mnemonicParsing="false" onAction="#writeToFile" text="zapisz" />
@@ -58,7 +57,7 @@
       <Label fx:id="lblTop1" layoutX="402.0" layoutY="6.0" prefHeight="17.0" prefWidth="149.0" text="cena" />
       <HBox alignment="CENTER" layoutX="175.0" layoutY="23.0" prefHeight="36.0" prefWidth="633.0">
          <children>
-            <TextField>
+            <TextField fx:id="txtSearchName">
                <opaqueInsets>
                   <Insets right="10.0" />
                </opaqueInsets>
@@ -66,22 +65,22 @@
                   <Insets right="10.0" />
                </HBox.margin>
             </TextField>
-            <TextField prefHeight="25.0" prefWidth="78.0" promptText="do">
+            <TextField fx:id="txtPriceMin" prefHeight="25.0" prefWidth="78.0" promptText="do">
                <HBox.margin>
                   <Insets left="10.0" right="10.0" />
                </HBox.margin>
             </TextField>
-            <TextField prefHeight="25.0" prefWidth="78.0" promptText="od">
+            <TextField fx:id="txtPriceMax" prefHeight="25.0" prefWidth="78.0" promptText="od">
                <HBox.margin>
                   <Insets right="10.0" />
                </HBox.margin>
             </TextField>
-            <TextField prefHeight="25.0" prefWidth="78.0" promptText="od">
+            <TextField fx:id="txtWeightMin" prefHeight="25.0" prefWidth="78.0" promptText="od">
                <HBox.margin>
                   <Insets right="10.0" />
                </HBox.margin>
             </TextField>
-            <TextField prefHeight="25.0" prefWidth="78.0" promptText="do">
+            <TextField fx:id="txtWeightMax" prefHeight="25.0" prefWidth="78.0" promptText="do">
                <HBox.margin>
                   <Insets right="10.0" />
                </HBox.margin>
@@ -97,8 +96,6 @@
             <TableColumn fx:id="quantity" prefWidth="91.0" text="magazyn" />
         </columns>
       </TableView>
-      <CheckBox layoutX="575.0" layoutY="65.0" mnemonicParsing="false" text="ksiazka" />
-      <CheckBox layoutX="668.0" layoutY="65.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="100.0" text="urzadzenie" />
       <TableView fx:id="tableOrder" layoutX="17.0" layoutY="338.0" prefHeight="214.0" prefWidth="553.0">
          <columns>
             <TableColumn fx:id="nameOrder" prefWidth="69.0" text="nazwa" />
@@ -114,12 +111,13 @@
       <VBox layoutX="697.0" layoutY="88.0" prefHeight="441.0" prefWidth="92.0">
          <children>
             <!--<Button mnemonicParsing="false" onAction="#search" text="Szukaj" />-->
-            <Button mnemonicParsing="false" text="szukaj" />
+            <Button mnemonicParsing="false" onAction="#search" text="szukaj" />
          </children>
       </VBox>
       <TextField fx:id="txtAmount" layoutX="594.0" layoutY="338.0" promptText="ilosc sztuk" />
       <Label layoutX="175.0" layoutY="570.0" prefHeight="17.0" prefWidth="117.0" text="Numer Zmaowienia" />
-      <Label fx:id="lblOrderId" layoutX="311.0" layoutY="568.0" prefHeight="17.0" prefWidth="111.0" />
+      <Label fx:id="lblOrderId" layoutX="311.0" layoutY="568.0" prefHeight="17.0" prefWidth="66.0" />
+      <Label fx:id="lblValue" layoutX="399.0" layoutY="568.0" prefHeight="17.0" prefWidth="58.0" />
    </children>
    <opaqueInsets>
       <Insets top="10.0" />

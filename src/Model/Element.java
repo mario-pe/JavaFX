@@ -1,5 +1,7 @@
 package Model;
 
+import ScenesAndControllers.AlertBox;
+
 import java.io.Serializable;
 
 /**
@@ -18,7 +20,7 @@ public class Element implements Serializable {
 
     public Element(Item i){
 //        this.item = i;
-        this.amount = 2;
+        this.amount = 0;
         this.price = i.getPrice();
         this.weight = i.getWeight();
         this.name = i.getName();
@@ -80,8 +82,9 @@ public class Element implements Serializable {
     public static float load(Item i, int amount){
         return amount * i.getWeight();
     }
-    public int setStoreQuantity(Item i){
-        return i.getQuantity()- this.getAmount();
+    public int setStoreQuantity(Item i) {
+        return i.getQuantity() - this.getAmount();
+
     }
 
 }

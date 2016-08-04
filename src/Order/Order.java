@@ -12,6 +12,8 @@ public class Order implements Serializable {
 
     private ArrayList<Element> position;
     private long id;
+//    private float cost;
+
 
     public Order(ArrayList<Element> position, long id){
         this.position = position;

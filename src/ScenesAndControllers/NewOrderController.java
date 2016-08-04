@@ -5,6 +5,7 @@ import Model.Item;
 import Order.Order;
 import ProjectUtils.GeneratorId;
 import ProjectUtils.OperationsOnFile;
+import com.sun.org.apache.xpath.internal.SourceTree;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -62,8 +63,10 @@ public class NewOrderController implements Initializable {
     @Override public void initialize(URL location, ResourceBundle resources) {
         ObservableList<String> productTypes = FXCollections.observableArrayList("urzadzenie", "ksiazka");
         cmbAddProuct.setItems(productTypes);
-        txtAmount.setText("2");
-
+        txtAmount.setText("1");
+/*
+sprawdzic dlczego nawet bez zapisu zamowienia znikaj produkty z magazynu
+ */
         ArrayList<Item> i = null;
         try {
             i = OperationsOnFile.readItemListFromFile();
@@ -71,7 +74,6 @@ public class NewOrderController implements Initializable {
             e.printStackTrace();
         }
         ObservableList<Item> tableListView = FXCollections.observableArrayList(i);
-
 
         ArrayList<Order> orderArrayList = null;
         try {
@@ -83,24 +85,7 @@ public class NewOrderController implements Initializable {
         GeneratorId.init(orderArrayList);
         lblOrderId.setText(String.valueOf(GeneratorId.getNextId()));
         ArrayList<Element> elementArrayList = new ArrayList<Element>();
-//        table.setOnMouseClicked(e->{
-//            System.out.println(table.getRowFactory());
-//            ArrayList<Item> itemArrayList = new ArrayList<>();
-//            itemArrayList.add((Item) table.getRowFactory());
-//        });
-
-//        table.getSelectionModel().getSelectedItem()
-//
-//        TablePosition position = (TablePosition) table.getRowFactory();
-//        System.out.println(position);
-
-
-//                TablePosition pos = table.getSelectionModel().getSelectedCells().get(0);
-//        int row = pos.getRow();
-//        Item item = table.getItems().get(row);
-//        TableColumn col = pos.getTableColumn();
-//        String data = (String) col.getCellObservableValue(item).getValue();
-//        System.out.println(data);
+        ObservableList<Element> listOrederOb = FXCollections.observableArrayList(elementArrayList);
 
         table.setRowFactory( tv -> {
             TableRow<Item> roww = new TableRow<>();
@@ -108,20 +93,43 @@ public class NewOrderController implements Initializable {
                 if (event.getClickCount() == 1 && (! roww.isEmpty()) ) {
                     Item rowData = roww.getItem();
                     Element element = new Element(rowData);
-                    element.setAmount(Integer.parseInt(txtAmount.getText()));
-                    element.setCost(Element.cost(rowData,Integer.parseInt(txtAmount.getText())));
-                    element.setLoad(Element.load(rowData,Integer.parseInt(txtAmount.getText())));
-                    rowData.setQuantity(element.setStoreQuantity(rowData));
-                    elementArrayList.add(element);
+
+                    if((rowData.getQuantity()- Integer.parseInt(txtAmount.getText())) >= 0 && (Integer.parseInt(txtAmount.getText()) != 0)) {
+                        element.setAmount(Integer.parseInt(txtAmount.getText()));
+                        element.setCost(Element.cost(rowData, Integer.parseInt(txtAmount.getText())));
+                        element.setLoad(Element.load(rowData, Integer.parseInt(txtAmount.getText())));
+                        rowData.setQuantity(element.setStoreQuantity(rowData));
+
+//                    elementArrayList.add(element);
 //                    OperationsOnFile.writeItemListToFileArray(tableListView());
 
-//                    ArrayList<Item> ii = new ArrayList<Item>(tableListView);
-//                     OperationsOnFile.writeItemListToFileArray(ii);
+//                        ArrayList<Item> ii = new ArrayList<Item>(tableListView);
+//                        OperationsOnFile.writeItemListToFileArray(ii);
 
 //                    for(Element e : elementArrayList)
 //                        System.out.println(e);
-                    ObservableList<Element> listOrederOb = FXCollections.observableArrayList(elementArrayList);
-                    String nameElement = element.getName();
+//                    ObservableList<Element> listOrederOb = FXCollections.observableArrayList(elementArrayList);
+                        listOrederOb.add(element);
+                        for (Element elements : listOrederOb)
+                        { if (!(element.getName().equals(elements.getName()))) {
+//                            System.out.println(elements);
+//                            elements.setAmount(element.getAmount()+Integer.parseInt(txtAmount.getText()));
+                            System.out.println("element " + element + "elements " + elements);
+//                            System.out.println("element " + element);
+//                            listOrederOb.remove(element);
+//                            listOrederOb.add(elements);
+//                        }
+                        }
+                            else {System.out.println("else " + element + " else elements " + elements);
+//                            elements.setAmount(element.getAmount()+elements.getAmount());
+//                            listOrederOb.remove(element);
+//                            listOrederOb.add(elements);
+                        }
+                        }
+
+                    lblValue.setText(String.valueOf(fullCost(listOrederOb)));}
+
+                    else AlertBox.display("Błąd","nieodpowiednia ilość");
 
                     nameOrder.setCellValueFactory(new PropertyValueFactory<Element,String>("name"));
                     priceOrder.setCellValueFactory(new PropertyValueFactory<Element,Float>("price"));
@@ -181,10 +189,8 @@ public class NewOrderController implements Initializable {
         ObservableList<Element> listKurwaMac =  FXCollections.observableArrayList(tableOrder.getItems());
        ArrayList<Element> elementList = new ArrayList<>(listKurwaMac);
 
-
        Order order = new Order(elementList,parseLong(lblOrderId.getText()));
-//        Order order = new Order(elementList,5);
-//        ArrayList<Order> orderList = new ArrayList<Order>();
+
         orderListFromFile.add(order);
         for(Order o : orderListFromFile)
         System.out.println(o);
@@ -199,63 +205,36 @@ public class NewOrderController implements Initializable {
 
 
     }
-//    public void Tables (ActionEvent eve){
-//        ArrayList<Element> elementArrayList = new ArrayList<>();
-//        table.setOnMouseClicked(e->{
-//            table.getItems();
-//        });
-//
-//        table.setRowFactory( tv -> {
-//            TableRow<Item> row = new TableRow<>();
-//            row.setOnMouseClicked(event -> {
-//                if (event.getClickCount() == 1 && (! row.isEmpty()) ) {
-//                    Item rowData = row.getItem();
-//                    Element element = new Element(rowData);
-//                    elementArrayList.add(element);
-//                    for(Element e : elementArrayList)
-//                        System.out.println(e);
-//                    element.setAmount(Integer.parseInt(txtAmount.getText()));
-//                    ObservableList<Element> listOrederOb = FXCollections.observableArrayList(elementArrayList);
-//                    String nameElement = element.getItem().getName();
-//                    nameOrder.setCellValueFactory(new PropertyValueFactory<Element,String>("item"));
-//                    amountOrder.setCellValueFactory(new PropertyValueFactory<Element,Integer>("amount"));
-//                    tableOrder.setItems(listOrederOb);
-//                }
-//            });
-//            return row ;
-//        });
-//    }
 
-//    public  ObservableList<Item> tableListView() throws IOException {
-//        ArrayList<Item> i = OperationsOnFile.readItemListFromFile();
-//        ObservableList<Item> itemObservableList = FXCollections.observableArrayList(i);
-//        return itemObservableList;
-//    }
-//    public void search(ActionEvent event) throws IOException {
-//        ObservableList<Item> itemObservableList = FXCollections.observableArrayList(tableListView());
-//        ObservableList<Item> listSearch = FXCollections.observableArrayList();
-//        lblValue.setText(txtSearchName.getText());
-//
-//        for(Item item: itemObservableList)
-//
-//            if(txtSearchName.getText().equals(item.getName())) {
-//                listSearch.add(item);
-//
-//                table.setItems(listSearch);
-//                table.getOnMouseReleased();
-//                table.getOnMouseClicked();
-//
-//            }
-//    }
+    public  ObservableList<Item> tableListView() throws IOException {
+    ArrayList<Item> i = OperationsOnFile.readItemListFromFile();
+    ObservableList<Item> itemObservableList = FXCollections.observableArrayList(i);
+    return itemObservableList;
+}
+    public void search(ActionEvent event) throws IOException {
+        ObservableList<Item> itemObservableList = FXCollections.observableArrayList(tableListView());
+        ObservableList<Item> listSearch = FXCollections.observableArrayList();
 
-
-
+        for (Item item : itemObservableList)
+            if (txtSearchName.getText().equals("") || txtSearchName.getText().equals(item.getName()))
+                if ( txtPriceMin.getText().equals("") || Float.parseFloat(txtPriceMin.getText()) <= item.getPrice())   //min price
+                    if (txtPriceMax.getText().equals("") || Float.parseFloat(txtPriceMax.getText()) >= item.getPrice())   // max price
+                        if (txtWeightMin.getText().equals("") || Float.parseFloat(txtWeightMin.getText()) <= item.getWeight())    //min price
+                            if ( txtWeightMax.getText().equals("") || Float.parseFloat(txtWeightMax.getText()) >= item.getWeight()){
+                                listSearch.add(item);
+                                table.setItems(listSearch);
+                            }
+    }
     public void delete(ActionEvent event){
         ObservableList<Element>  selectedProdukt, allProduckt;
         allProduckt = tableOrder.getItems();
         selectedProdukt = tableOrder.getSelectionModel().getSelectedItems();
         selectedProdukt.forEach(allProduckt :: remove);
-
+    }
+    public static float fullCost(ObservableList<Element> list){
+        float fullCost =0;
+        for(Element element: list) fullCost = fullCost + element.getCost();
+            return fullCost;
     }
 
 

@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ScenesAndControllers.ItemsSearchController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ScenesAndControllers.ItemsSearchController">
    <children>
       <VBox alignment="TOP_CENTER" layoutY="2.0" prefHeight="600.0" prefWidth="184.0" spacing="10.0">
          <children>
@@ -85,7 +85,7 @@
          </children>
       </HBox>
       <Label layoutX="584.0" layoutY="6.0" prefHeight="17.0" prefWidth="40.0" text="waga" />
-      <TableView fx:id="table" layoutX="188.0" layoutY="111.0" prefHeight="644.0" prefWidth="469.0">
+      <TableView fx:id="table" editable="true" layoutX="188.0" layoutY="111.0" prefHeight="452.0" prefWidth="469.0">
         <columns>
           <TableColumn fx:id="name" prefWidth="152.0" text="nazwa" />
             <TableColumn fx:id="author" prefWidth="127.0" text="autor" />

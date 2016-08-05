@@ -5,7 +5,9 @@ import Model.Item;
 import Order.Order;
 import ProjectUtils.GeneratorId;
 import ProjectUtils.OperationsOnFile;
+import com.sun.org.apache.bcel.internal.classfile.ExceptionTable;
 import com.sun.org.apache.xpath.internal.SourceTree;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -54,19 +56,14 @@ public class NewOrderController implements Initializable {
     @FXML private Label lblOrderId;
     @FXML private TextField txtAmount;
     @FXML private Label lblValue;
-
-    @FXML private Button btnSaveOrder;
-//    @FXML private Button btnItemsSearch;
     @FXML private Button btnExit;
-
     @FXML public ComboBox<String> cmbAddProuct;
+
     @Override public void initialize(URL location, ResourceBundle resources) {
         ObservableList<String> productTypes = FXCollections.observableArrayList("urzadzenie", "ksiazka");
         cmbAddProuct.setItems(productTypes);
         txtAmount.setText("1");
-/*
-sprawdzic dlczego nawet bez zapisu zamowienia znikaj produkty z magazynu
- */
+
         ArrayList<Item> i = null;
         try {
             i = OperationsOnFile.readItemListFromFile();
@@ -86,11 +83,13 @@ sprawdzic dlczego nawet bez zapisu zamowienia znikaj produkty z magazynu
         lblOrderId.setText(String.valueOf(GeneratorId.getNextId()));
         ArrayList<Element> elementArrayList = new ArrayList<Element>();
         ObservableList<Element> listOrederOb = FXCollections.observableArrayList(elementArrayList);
+//        listOrederOb.addListener();
 
         table.setRowFactory( tv -> {
             TableRow<Item> roww = new TableRow<>();
             roww.setOnMouseClicked(event -> {
-                if (event.getClickCount() == 1 && (! roww.isEmpty()) ) {
+                if (event.getClickCount() == 1 && !roww.isEmpty() ) {
+                    int index = roww.getIndex();
                     Item rowData = roww.getItem();
                     Element element = new Element(rowData);
 
@@ -98,33 +97,21 @@ sprawdzic dlczego nawet bez zapisu zamowienia znikaj produkty z magazynu
                         element.setAmount(Integer.parseInt(txtAmount.getText()));
                         element.setCost(Element.cost(rowData, Integer.parseInt(txtAmount.getText())));
                         element.setLoad(Element.load(rowData, Integer.parseInt(txtAmount.getText())));
+
                         rowData.setQuantity(element.setStoreQuantity(rowData));
+                        tableListView.set(index,rowData);
+                        System.out.println(indexBoy(rowData,listOrederOb ));
 
-//                    elementArrayList.add(element);
-//                    OperationsOnFile.writeItemListToFileArray(tableListView());
+                        if (indexBoy(rowData,listOrederOb) >= 0) {
+                            Element elementDuplicat = listOrederOb.get(indexBoy(rowData, listOrederOb));
+                            elementDuplicat.setAmount((listOrederOb.get(indexBoy(rowData,listOrederOb)).getAmount()+Integer.parseInt(txtAmount.getText())));
+                            elementDuplicat.setCost(elementDuplicat.getAmount()*elementDuplicat.getPrice());
+                            elementDuplicat.setLoad((elementDuplicat.getAmount()*elementDuplicat.getWeight()));
+                            listOrederOb.set(indexBoy(rowData, listOrederOb),elementDuplicat);
 
-//                        ArrayList<Item> ii = new ArrayList<Item>(tableListView);
-//                        OperationsOnFile.writeItemListToFileArray(ii);
-
-//                    for(Element e : elementArrayList)
-//                        System.out.println(e);
-//                    ObservableList<Element> listOrederOb = FXCollections.observableArrayList(elementArrayList);
-                        listOrederOb.add(element);
-                        for (Element elements : listOrederOb)
-                        { if (!(element.getName().equals(elements.getName()))) {
-//                            System.out.println(elements);
-//                            elements.setAmount(element.getAmount()+Integer.parseInt(txtAmount.getText()));
-                            System.out.println("element " + element + "elements " + elements);
-//                            System.out.println("element " + element);
-//                            listOrederOb.remove(element);
-//                            listOrederOb.add(elements);
-//                        }
                         }
-                            else {System.out.println("else " + element + " else elements " + elements);
-//                            elements.setAmount(element.getAmount()+elements.getAmount());
-//                            listOrederOb.remove(element);
-//                            listOrederOb.add(elements);
-                        }
+                        else{System.out.println("indexs " +indexBoy(rowData,listOrederOb ));
+                            listOrederOb.add(element);
                         }
 
                     lblValue.setText(String.valueOf(fullCost(listOrederOb)));}
@@ -142,40 +129,6 @@ sprawdzic dlczego nawet bez zapisu zamowienia znikaj produkty z magazynu
             });
             return roww;
         });
-
-//        btnSaveOrder.setOnAction(e-> {
-//            System.out.println("asd");
-//        });
-
-
-
-
-
-//        Order newOrder = new Order(elementArrayList,parseLong(lblOrderId.getText()));
-//        System.out.println(newOrder);
-//        orderArrayList.add(newOrder);
-//
-//
-//
-//
-//        ArrayList<Order> finalOrderArrayList = orderArrayList;
-//        btnSaveOrder.setOnAction(e -> {
-//
-//                    try {
-//                        OperationsOnFile.writeOrderListToFile(finalOrderArrayList);
-//                    } catch (IOException e1) {
-//                        e1.printStackTrace();
-//                    }
-//                }
-//        );
-//
-//
-//        ObservableList<Item> obList = null;
-//        try {
-//            obList = tableListView();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
         name.setCellValueFactory(new PropertyValueFactory<Item, String>("name"));
         price.setCellValueFactory(new PropertyValueFactory<Item,Float>("price"));
         weight.setCellValueFactory(new PropertyValueFactory<Item,Float>("weight"));
@@ -186,16 +139,15 @@ sprawdzic dlczego nawet bez zapisu zamowienia znikaj produkty z magazynu
     }
     public void writeToFile(ActionEvent event) throws IOException {
         ArrayList<Order> orderListFromFile = OperationsOnFile.readOrderListFromFile();
-        ObservableList<Element> listKurwaMac =  FXCollections.observableArrayList(tableOrder.getItems());
-       ArrayList<Element> elementList = new ArrayList<>(listKurwaMac);
-
-       Order order = new Order(elementList,parseLong(lblOrderId.getText()));
-
+        table.getItems().toArray();
+        ObservableList<Element> elementObservableList =  FXCollections.observableArrayList(tableOrder.getItems());
+        ArrayList<Element> elementList = new ArrayList<>(elementObservableList);
+        ObservableList<Item> itemObservableList = FXCollections.observableArrayList(table.getItems());
+        ArrayList<Item> itemArrayList = new ArrayList<>(itemObservableList);
+        OperationsOnFile.writeItemListToFileArray(itemArrayList);
+        Order order = new Order(elementList,parseLong(lblOrderId.getText()));
         orderListFromFile.add(order);
-        for(Order o : orderListFromFile)
-        System.out.println(o);
         OperationsOnFile.writeOrderListToFileArray(orderListFromFile);
-
         Parent addProduktScreen = FXMLLoader.load(getClass().getResource("NewOrder.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene addProduktScene = new Scene(addProduktScreen);
@@ -205,7 +157,6 @@ sprawdzic dlczego nawet bez zapisu zamowienia znikaj produkty z magazynu
 
 
     }
-
     public  ObservableList<Item> tableListView() throws IOException {
     ArrayList<Item> i = OperationsOnFile.readItemListFromFile();
     ObservableList<Item> itemObservableList = FXCollections.observableArrayList(i);
@@ -226,17 +177,48 @@ sprawdzic dlczego nawet bez zapisu zamowienia znikaj produkty z magazynu
                             }
     }
     public void delete(ActionEvent event){
+        try{
+        Element element;
+        Item item = null;
+        int index = 0;
+
         ObservableList<Element>  selectedProdukt, allProduckt;
+        ObservableList<Item>  allItems;
+
+        allItems = table.getItems();
+
+
         allProduckt = tableOrder.getItems();
         selectedProdukt = tableOrder.getSelectionModel().getSelectedItems();
-        selectedProdukt.forEach(allProduckt :: remove);
+        element = tableOrder.getSelectionModel().getSelectedItem();
+        for(Item i : allItems)
+        if(element.getName().equals(i.getName())&& element.getPrice()== i.getPrice()&& element.getWeight()== i.getWeight())
+         index = allItems.indexOf(i);
+        item = allItems.get(index);
+        int elemenetAmount = element.getAmount();
+        item.setQuantity(item.getQuantity()+ elemenetAmount);
+        allItems.set(index,item);
+        table.setItems(allItems);
+        selectedProdukt.forEach(allProduckt :: remove);}
+        catch (Exception e){AlertBox.display("Błąd","Niemożesz usunąć produktu z tej tabeli" );}
+
     }
     public static float fullCost(ObservableList<Element> list){
         float fullCost =0;
         for(Element element: list) fullCost = fullCost + element.getCost();
             return fullCost;
     }
+    public static int indexBoy(Item i, ObservableList<Element> list){
+        int result = -2;
+        for(Element element : list)
+            if((i.getName().equals(element.getName()))&& (i.getPrice() == element.getPrice())&& (i.getWeight()== element.getWeight())) {
+                System.out.println("znaleziono duplikat " + element);
+                result = list.indexOf(element);
+                System.out.println("indexsBoy "+result);
+            }
+        return result;
 
+    }
 
     public void Exit(ActionEvent event) {
         btnExit.setOnAction(e -> {

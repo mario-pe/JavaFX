@@ -79,6 +79,9 @@ public class Element implements Serializable {
     public static float cost(Item i, int amount){
         return amount * i.getPrice();
     }
+//    public static float cost(int amount, float price){
+//        return amount * price;
+//    }
     public static float load(Item i, int amount){
         return amount * i.getWeight();
     }

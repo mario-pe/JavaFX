@@ -23,7 +23,7 @@
             <Button mnemonicParsing="false" onAction="#itemsView" prefHeight="50.0" prefWidth="150.0" text="Wyszukaj produkt" />
             <Button mnemonicParsing="false" onAction="#newOrderScreen" prefHeight="50.0" prefWidth="150.0" text="Nowe zamówienie" textAlignment="CENTER" textOverrun="WORD_ELLIPSIS" />
             <Button mnemonicParsing="false" onAction="#editOrderScreen" prefHeight="50.0" prefWidth="150.0" text="Wyszukaj zamowienie" />
-            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Edytuj Zamowienie" />
+
          </children>
          <opaqueInsets>
             <Insets top="10.0" />

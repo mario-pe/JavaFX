@@ -12,10 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -33,14 +30,53 @@ public class OrderEditController implements Initializable{
     @FXML
     private Button btnItemsSearch;
     @FXML private Button btnExit;
-    @FXML public ComboBox<String> cmbAddProuct;
-
+    @FXML private ComboBox<String> cmbAddProuct;
+    @FXML private TextField txtId;
     @FXML private TableView<Order> table;
     @FXML private TableColumn<Order, String> elementTableColumn;
     @FXML private TableColumn<Order, Long> idTableColumn;
 
 
     @Override public void initialize(URL location, ResourceBundle resources) {
+
+        table.setRowFactory(tv -> {
+            TableRow<Order> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if(event.getClickCount() == 2 && !row.isEmpty()) {
+
+                    Order rowOrder = row.getItem();
+
+
+                    for(int i = 0; i < rowOrder.getPosition().size() ; i++)
+                    System.out.println(rowOrder.getPosition().get(i));
+                    Object[] elements = rowOrder.getPosition().toArray();
+
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("OrderDetails.fxml"));
+                    Parent root = null;
+                    try {
+                         root = (Parent)fxmlLoader.load();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    OrderDetails controller = fxmlLoader.<OrderDetails>getController();
+
+                    controller.setOrder(rowOrder);
+                    Scene scene = new Scene(root);
+                    Stage stage = new Stage();
+
+                    stage.setScene(scene);
+
+                    stage.show();
+
+                }
+
+
+            });
+            return row;
+        });
+
         ObservableList<String> productTypes = FXCollections.observableArrayList("urzadzenie", "ksiazka");
         cmbAddProuct.setItems(productTypes);
         ArrayList<Order> orderArrayList = null;
@@ -55,6 +91,39 @@ public class OrderEditController implements Initializable{
         table.setItems(orderObservableList);
 
     }
+    public void search(ActionEvent event){
+
+        ObservableList<Order> orderObservableList = null;
+        try {
+            orderObservableList = FXCollections.observableArrayList(OperationsOnFile.readOrderListFromFile());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ObservableList<Order> result = FXCollections.observableArrayList();
+        int w = orderObservableList.size() -1 ;
+
+
+        try {
+            for(int i = 0; i<orderObservableList.size();i++)
+                if(orderObservableList.get(i).getId()==Long.parseLong(txtId.getText())){
+                    result.add(orderObservableList.get(i));
+                    table.setItems(result);
+
+
+                }
+
+            else if( result.isEmpty() && i == w ){
+                    AlertBox.display("szukanie","Nie znaleziono żadnego zamowienia");
+                    txtId.clear();
+                }
+        }
+        catch (Exception e){ AlertBox.display("Błąd"," W tym polu musisz wpisac liczbe ");}
+
+
+
+    }
+
+
 
     public void Exit(ActionEvent event) {
         btnExit.setOnAction(e -> {

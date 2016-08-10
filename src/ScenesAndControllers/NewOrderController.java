@@ -5,9 +5,6 @@ import Model.Item;
 import Order.Order;
 import ProjectUtils.GeneratorId;
 import ProjectUtils.OperationsOnFile;
-import com.sun.org.apache.bcel.internal.classfile.ExceptionTable;
-import com.sun.org.apache.xpath.internal.SourceTree;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -39,7 +36,7 @@ public class NewOrderController implements Initializable {
     @FXML private TextField txtWeightMax;
 
 
-    @FXML private TableView<Item> table;
+    @FXML private TableView<Item> tableItems;
     @FXML private TableColumn<Item , String> name;
     @FXML private TableColumn<Item , Float> price;
     @FXML private TableColumn<Item , Float> weight;
@@ -64,6 +61,7 @@ public class NewOrderController implements Initializable {
         cmbAddProuct.setItems(productTypes);
         txtAmount.setText("1");
 
+
         ArrayList<Item> i = null;
         try {
             i = OperationsOnFile.readItemListFromFile();
@@ -83,48 +81,52 @@ public class NewOrderController implements Initializable {
         lblOrderId.setText(String.valueOf(GeneratorId.getNextId()));
         ArrayList<Element> elementArrayList = new ArrayList<Element>();
         ObservableList<Element> listOrederOb = FXCollections.observableArrayList(elementArrayList);
-//        listOrederOb.addListener();
 
-        table.setRowFactory( tv -> {
+
+        tableItems.setRowFactory(tv -> {
             TableRow<Item> roww = new TableRow<>();
             roww.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 1 && !roww.isEmpty() ) {
                     int index = roww.getIndex();
                     Item rowData = roww.getItem();
                     Element element = new Element(rowData);
+                    try {
 
-                    if((rowData.getQuantity()- Integer.parseInt(txtAmount.getText())) >= 0 && (Integer.parseInt(txtAmount.getText()) != 0)) {
-                        element.setAmount(Integer.parseInt(txtAmount.getText()));
-                        element.setCost(Element.cost(rowData, Integer.parseInt(txtAmount.getText())));
-                        element.setLoad(Element.load(rowData, Integer.parseInt(txtAmount.getText())));
+                        if ((rowData.getQuantity() - Integer.parseInt(txtAmount.getText())) >= 0 && (Integer.parseInt(txtAmount.getText()) != 0)) {
+                            element.setAmount(Integer.parseInt(txtAmount.getText()));
+                            element.setCost(Element.cost(rowData, Integer.parseInt(txtAmount.getText())));
+                            element.setLoad(Element.load(rowData, Integer.parseInt(txtAmount.getText())));
 
-                        rowData.setQuantity(element.setStoreQuantity(rowData));
-                        tableListView.set(index,rowData);
-                        System.out.println(indexBoy(rowData,listOrederOb ));
+                            rowData.setQuantity(element.setStoreQuantity(rowData));
+                            tableListView.set(index, rowData);
 
-                        if (indexBoy(rowData,listOrederOb) >= 0) {
-                            Element elementDuplicat = listOrederOb.get(indexBoy(rowData, listOrederOb));
-                            elementDuplicat.setAmount((listOrederOb.get(indexBoy(rowData,listOrederOb)).getAmount()+Integer.parseInt(txtAmount.getText())));
-                            elementDuplicat.setCost(elementDuplicat.getAmount()*elementDuplicat.getPrice());
-                            elementDuplicat.setLoad((elementDuplicat.getAmount()*elementDuplicat.getWeight()));
-                            listOrederOb.set(indexBoy(rowData, listOrederOb),elementDuplicat);
 
-                        }
-                        else{System.out.println("indexs " +indexBoy(rowData,listOrederOb ));
-                            listOrederOb.add(element);
-                        }
+                            if (indexBoy(rowData, listOrederOb) >= 0) {
+                                Element elementDuplicat = listOrederOb.get(indexBoy(rowData, listOrederOb));
+                                elementDuplicat.setAmount((listOrederOb.get(indexBoy(rowData, listOrederOb)).getAmount() + Integer.parseInt(txtAmount.getText())));
+                                elementDuplicat.setCost(elementDuplicat.getAmount() * elementDuplicat.getPrice());
+                                elementDuplicat.setLoad((elementDuplicat.getAmount() * elementDuplicat.getWeight()));
+                                listOrederOb.set(indexBoy(rowData, listOrederOb), elementDuplicat);
 
-                    lblValue.setText(String.valueOf(fullCost(listOrederOb)));}
+                            } else {
 
-                    else AlertBox.display("Błąd","nieodpowiednia ilość");
+                                listOrederOb.add(element);
+                            }
 
-                    nameOrder.setCellValueFactory(new PropertyValueFactory<Element,String>("name"));
-                    priceOrder.setCellValueFactory(new PropertyValueFactory<Element,Float>("price"));
-                    weightOrder.setCellValueFactory(new PropertyValueFactory<Element,Float>("weight"));
-                    amountOrder.setCellValueFactory(new PropertyValueFactory<Element,Integer>("amount"));
-                    costOrder.setCellValueFactory(new PropertyValueFactory<Element,Float>("cost"));
-                    loadOrder.setCellValueFactory(new PropertyValueFactory<Element,Float>("load"));
-                    tableOrder.setItems(listOrederOb);
+                            lblValue.setText(String.valueOf(fullCost(listOrederOb)));
+                        } else AlertBox.display("Błąd", "nieodpowiednia ilość");
+
+                        nameOrder.setCellValueFactory(new PropertyValueFactory<Element, String>("name"));
+                        priceOrder.setCellValueFactory(new PropertyValueFactory<Element, Float>("price"));
+                        weightOrder.setCellValueFactory(new PropertyValueFactory<Element, Float>("weight"));
+                        amountOrder.setCellValueFactory(new PropertyValueFactory<Element, Integer>("amount"));
+                        costOrder.setCellValueFactory(new PropertyValueFactory<Element, Float>("cost"));
+                        loadOrder.setCellValueFactory(new PropertyValueFactory<Element, Float>("load"));
+                        tableOrder.setItems(listOrederOb);
+                    }
+                    catch(Exception e ){
+                        AlertBox.display("Błąd","Zła wartosc");
+                    }
                 }
             });
             return roww;
@@ -133,16 +135,16 @@ public class NewOrderController implements Initializable {
         price.setCellValueFactory(new PropertyValueFactory<Item,Float>("price"));
         weight.setCellValueFactory(new PropertyValueFactory<Item,Float>("weight"));
         quantity.setCellValueFactory(new PropertyValueFactory<Item, Integer>("quantity"));
-        table.setItems(tableListView);
-        table.setEditable(true);
+        tableItems.setItems(tableListView);
+        tableItems.setEditable(true);
 
     }
     public void writeToFile(ActionEvent event) throws IOException {
         ArrayList<Order> orderListFromFile = OperationsOnFile.readOrderListFromFile();
-        table.getItems().toArray();
+        tableItems.getItems().toArray();
         ObservableList<Element> elementObservableList =  FXCollections.observableArrayList(tableOrder.getItems());
         ArrayList<Element> elementList = new ArrayList<>(elementObservableList);
-        ObservableList<Item> itemObservableList = FXCollections.observableArrayList(table.getItems());
+        ObservableList<Item> itemObservableList = FXCollections.observableArrayList(tableItems.getItems());
         ArrayList<Item> itemArrayList = new ArrayList<>(itemObservableList);
         OperationsOnFile.writeItemListToFileArray(itemArrayList);
         Order order = new Order(elementList,parseLong(lblOrderId.getText()));
@@ -173,7 +175,7 @@ public class NewOrderController implements Initializable {
                         if (txtWeightMin.getText().equals("") || Float.parseFloat(txtWeightMin.getText()) <= item.getWeight())    //min price
                             if ( txtWeightMax.getText().equals("") || Float.parseFloat(txtWeightMax.getText()) >= item.getWeight()){
                                 listSearch.add(item);
-                                table.setItems(listSearch);
+                                tableItems.setItems(listSearch);
                             }
     }
     public void delete(ActionEvent event){
@@ -185,7 +187,7 @@ public class NewOrderController implements Initializable {
         ObservableList<Element>  selectedProdukt, allProduckt;
         ObservableList<Item>  allItems;
 
-        allItems = table.getItems();
+        allItems = tableItems.getItems();
 
 
         allProduckt = tableOrder.getItems();
@@ -198,7 +200,7 @@ public class NewOrderController implements Initializable {
         int elemenetAmount = element.getAmount();
         item.setQuantity(item.getQuantity()+ elemenetAmount);
         allItems.set(index,item);
-        table.setItems(allItems);
+        tableItems.setItems(allItems);
         selectedProdukt.forEach(allProduckt :: remove);}
         catch (Exception e){AlertBox.display("Błąd","Niemożesz usunąć produktu z tej tabeli" );}
 
@@ -212,9 +214,7 @@ public class NewOrderController implements Initializable {
         int result = -2;
         for(Element element : list)
             if((i.getName().equals(element.getName()))&& (i.getPrice() == element.getPrice())&& (i.getWeight()== element.getWeight())) {
-                System.out.println("znaleziono duplikat " + element);
                 result = list.indexOf(element);
-                System.out.println("indexsBoy "+result);
             }
         return result;
 
@@ -253,7 +253,7 @@ public class NewOrderController implements Initializable {
                 e1.printStackTrace();
             }
         } else
-            System.out.println("bla bla");
+            System.out.println("spoko nic sie nie dzieje");
     }
     public void itemsViewScreen(ActionEvent event) throws IOException {
         try {

@@ -23,7 +23,7 @@
             <Button mnemonicParsing="false" onAction="#itemsViewScreen" prefHeight="50.0" prefWidth="150.0" text="Wyszukaj produkt" />
             <Button mnemonicParsing="false" onAction="#newOrderScreen" prefHeight="50.0" prefWidth="150.0" text="Nowe zamówienie" textAlignment="CENTER" textOverrun="WORD_ELLIPSIS" />
             <Button mnemonicParsing="false" onAction="#editOrderScreen" prefHeight="50.0" prefWidth="150.0" text="Wyszukaj zamowienie" />
-            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Edytuj Zamowienie" />
+
          </children>
          <opaqueInsets>
             <Insets top="10.0" />
@@ -88,7 +88,7 @@
          </children>
       </HBox>
       <Label layoutX="584.0" layoutY="6.0" prefHeight="17.0" prefWidth="40.0" text="waga" />
-      <TableView fx:id="table" layoutX="184.0" layoutY="88.0" prefHeight="214.0" prefWidth="386.0">
+      <TableView fx:id="tableItems" layoutX="184.0" layoutY="88.0" prefHeight="214.0" prefWidth="386.0">
         <columns>
           <TableColumn fx:id="name" prefWidth="170.0" text="nazwa" />
           <TableColumn fx:id="price" prefWidth="55.0" text="cena" />

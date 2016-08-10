@@ -53,6 +53,7 @@ public class ItemsSearchController implements Initializable{
         ObservableList<String> productTypes = FXCollections.observableArrayList("urzadzenie", "ksiazka");
         cmbAddProuct.setItems(productTypes);
 
+
         ObservableList<Item> obList = null;
         try {
             obList = tableListView();

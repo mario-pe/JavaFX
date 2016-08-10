@@ -8,16 +8,25 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.GaussianBlur?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ScenesAndControllers.OrderEditController">
+<AnchorPane prefHeight="590.0" prefWidth="790.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ScenesAndControllers.OrderDetails">
    <children>
-      <VBox alignment="TOP_CENTER" layoutY="2.0" prefHeight="600.0" prefWidth="184.0" spacing="10.0">
+      <HBox alignment="CENTER" layoutX="175.0" layoutY="23.0" prefHeight="36.0" prefWidth="633.0" spacing="10.0">
+         <children>
+            <Label prefHeight="17.0" prefWidth="111.0" text="numer zamowienia">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Label>
+            <Label prefHeight="17.0" prefWidth="128.0" />
+         </children>
+      </HBox>
+      <VBox alignment="TOP_CENTER" layoutX="10.0" layoutY="12.0" prefHeight="600.0" prefWidth="184.0" spacing="10.0">
          <children>
             <ComboBox fx:id="cmbAddProuct" onAction="#productChooser" prefHeight="50.0" prefWidth="150.0" promptText="Dodaj Produkt" />
             <Button mnemonicParsing="false" onAction="#ItemSearchScreen" prefHeight="50.0" prefWidth="150.0" text="Wyszukaj produkt" />
@@ -42,43 +51,21 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
       </VBox>
-      <HBox alignment="CENTER_RIGHT" layoutX="422.0" layoutY="554.0" prefHeight="40.0" prefWidth="400.0" spacing="5.0">
-         <children>
-            <Button mnemonicParsing="false" onAction="#Exit" onDragDetected="#Exit" text="Wyjdz" />
-         </children>
-         <padding>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-         </padding>
-      </HBox>
-      <HBox alignment="CENTER" layoutX="175.0" layoutY="23.0" prefHeight="36.0" prefWidth="633.0" spacing="10.0">
-         <children>
-            <Label prefHeight="17.0" prefWidth="111.0" text="numer zamowienia">
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
-            </Label>
-            <TextField fx:id="txtId">
-               <opaqueInsets>
-                  <Insets right="10.0" />
-               </opaqueInsets>
-               <HBox.margin>
-                  <Insets right="10.0" />
-               </HBox.margin>
-            </TextField>
-            <Button mnemonicParsing="false" onAction="#search" text="Szukaj" />
-         </children>
-      </HBox>
-      <TableView fx:id="table" layoutX="211.0" layoutY="87.0" prefHeight="444.0" prefWidth="478.0">
-        <columns>
-          <TableColumn fx:id="elementTableColumn" prefWidth="375.0" text="zamowówienie" />
-          <TableColumn fx:id="idTableColumn" prefWidth="102.0" text="id" />
-        </columns>
+      <TableView fx:id="table" layoutX="194.0" layoutY="60.0" prefHeight="491.0" prefWidth="561.0">
+         <columns>
+            <TableColumn fx:id="name" prefWidth="69.0" text="nazwa" />
+            <TableColumn fx:id="price" prefWidth="91.0" text="cena" />
+            <TableColumn fx:id="amount" minWidth="6.0" prefWidth="52.0" text="szt" />
+            <TableColumn fx:id="cost" prefWidth="168.0" text="wartość pozycji" />
+            <TableColumn fx:id="weight" prefWidth="71.0" text="waga" />
+            <TableColumn fx:id="load" prefWidth="84.0" text="ciężar pozycji" />
+         </columns>
       </TableView>
    </children>
    <opaqueInsets>
       <Insets top="10.0" />
    </opaqueInsets>
    <rotationAxis>
-      <Point3D x="100.0" y="100.0" />
+      <Point3D x="50.0" y="50.0" />
    </rotationAxis>
 </AnchorPane>

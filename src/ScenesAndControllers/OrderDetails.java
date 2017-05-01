@@ -68,7 +68,7 @@ public class OrderDetails implements Initializable {
         this.order = order;
         ObservableList<Element> elementObservableList = FXCollections.observableArrayList(order.getPosition());
         table.setItems(elementObservableList);
-        System.out.println(order);
+
     }
 
     public void orderDetails(Order order) {

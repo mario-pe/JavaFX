@@ -12,13 +12,14 @@ import java.util.ArrayList;
  * Created by domowy on 2016-07-18.
  */
 public class OperationsOnFile {
-    private static final String userFileName = "user.ser";
-    private static final String userItemName = "item.ser";
-    private static final String userOrderName = "order.ser";
+    private static final String userFileName = "src\\user.ser";
+    private static final String userItemName = "src\\item.ser";
+    private static final String userOrderName = "src\\order.ser";
 
 
     public static void writeUsersListToFileArray(ArrayList<User> list) {
         try {
+
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(userFileName));
             oos.writeObject(list);
             oos.close();

@@ -29,15 +29,11 @@ public class LoginFormController {
 
         ArrayList<User> usersList =  OperationsOnFile.readUsersListFromFile();
 
-
         if(Login.entry(txtUserName.getText(), txtPass.getText(),usersList) == true){
-
-//        if(txtUserName.getText().equals("user") && txtPass.getText().equals("pass")){
 
             Parent MenuScreen = FXMLLoader.load(getClass().getResource("MenuScreen.fxml"));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Scene MenuScene = new Scene(MenuScreen);
-//		 Stage stage = new Stage();
             stage.setScene(MenuScene);
             stage.setTitle("Menu główne");
             stage.show();

@@ -12,13 +12,12 @@ public class Login {
         boolean loginEquals = false;
         for(User user : usersList)
             if(login.equals(user.getUserName()) && password.equals(user.getPass())){
-                System.out.println("Jestes zalogowany");
 
                 loginEquals = true;
             }
-            else {
-                System.out.println("Bładne hasło lub login");
-            }
+//            else {
+//                System.out.println("Bładne hasło lub login");
+//            }
         return loginEquals;
 
     }

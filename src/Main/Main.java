@@ -4,6 +4,8 @@ import Model.*;
 import Order.Order;
 import ProjectUtils.OperationsOnFile;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -18,7 +20,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
 
 //         ObservableList<User> list = FXCollections.observableArrayList(
-//                new User ("mario","zaza", "perk@asd.pl","mariope","pass",22),
+//                new User ("mario","1234", "perk@asd.pl","mariope","pass",22),
 //                new User ("wacek","zaza", "sf@asd.pl","aa","aa" ,55),
 //                new User ("klocek","zaza", "asf@asd.pl","gruby","hass" ,56),
 //                new User ("wuj","zaza", "gaer@asd.pl","killer","aa" ,25),
@@ -26,17 +28,18 @@ public class Main extends Application {
 //                new User ("norman","zaza", "pragrk@ads.pl","gucio","zz" ,62),
 //                new User ("cyc","zaza", "pearegrk@asd.pl","hitler","ss" ,82),
 //                new User ("kazik","zaza", "asdb@asd.pl","kazik","pass" ,12),
-//                new User ("afa","zaza","ewf@asd.pl","alf","pass",45)
+//                new User ("aa","aa","ewf@asd.pl","alf","pass",45)
 //        );
-//        File file = new File("user.ser");
-//        operationsOnFile.writeUsersListToFileObservable(list);
+//        ArrayList<User> lista = new ArrayList<>(list);
+//        File file1 = new File("user.ser");
+//        OperationsOnFile.writeUsersListToFileArray(lista);
 //        ArrayList<User> usersList =  OperationsOnFile.readUsersListFromFile();
-//        for(User users: usersList)
-//            System.out.println(users);
-//                ArrayList<Item> itemList =  OperationsOnFile.readItemListFromFile();
-//             for(Item item: itemList)
-//            System.out.println(item);
-
+////        for(User users: usersList)
+////            System.out.println(users);
+////                ArrayList<Item> itemList =  OperationsOnFile.readItemListFromFile();
+////             for(Item item: itemList)
+////            System.out.println(item);
+//
 //        ArrayList<Item> itemList = new ArrayList<>();
 //        Device d = new Device();
 //        Book b = new Book();
@@ -47,10 +50,10 @@ public class Main extends Application {
 //        OperationsOnFile.writeItemListToFileArray(itemList);
 //        ArrayList<Item> itemLista = OperationsOnFile.readItemListFromFile();
 //        for(Item item: itemList) System.out.println(item);
-//        ArrayList<User> usersList =  OperationsOnFile.readUsersListFromFile();
-//        for(User u : usersList)
+//        ArrayList<User> usersLista =  OperationsOnFile.readUsersListFromFile();
+//        for(User u : usersLista)
 //            System.out.println(u);
-
+//
 //        Device d1 = new Device();
 //        Book b1 = new Book();
 //        Element e = new Element(d1,3);
@@ -69,10 +72,10 @@ public class Main extends Application {
 //        ArrayList<Order> orderListFromFile = OperationsOnFile.readOrderListFromFile();
 //        for(Order or: orderListFromFile) System.out.println(or);
 
-        Parent root = FXMLLoader.load(getClass().getResource("../ScenesAndControllers/MenuScreen.fxml"));
-        primaryStage.setTitle("Menu Główne");
-//        Parent root = FXMLLoader.load(getClass().getResource("../ScenesAndControllers/LoginForm.fxml"));
-//        primaryStage.setTitle("Logowanie");
+//        Parent root = FXMLLoader.load(getClass().getResource("../ScenesAndControllers/MenuScreen.fxml"));
+//        primaryStage.setTitle("Menu Główne");
+        Parent root = FXMLLoader.load(getClass().getResource("../ScenesAndControllers/LoginForm.fxml"));
+        primaryStage.setTitle("Logowanie");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }

@@ -46,9 +46,8 @@ public class OrderEditController implements Initializable{
 
                     Order rowOrder = row.getItem();
 
-
-                    for(int i = 0; i < rowOrder.getPosition().size() ; i++)
-                    System.out.println(rowOrder.getPosition().get(i));
+//                    for(int i = 0; i < rowOrder.getPosition().size() ; i++)
+//                    System.out.println(rowOrder.getPosition().get(i));
                     Object[] elements = rowOrder.getPosition().toArray();
 
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("OrderDetails.fxml"));
@@ -65,14 +64,9 @@ public class OrderEditController implements Initializable{
                     controller.setOrder(rowOrder);
                     Scene scene = new Scene(root);
                     Stage stage = new Stage();
-
                     stage.setScene(scene);
-
                     stage.show();
-
                 }
-
-
             });
             return row;
         });
